@@ -85,12 +85,18 @@ pub struct Trade {
   /// Time of the trade.
   #[serde(rename = "t")]
   pub timestamp: DateTime<Utc>,
+  /// Exchange of the asset
+  #[serde(rename = "x")]
+  pub exchange: String,
   /// The price of the trade.
   #[serde(rename = "p")]
   pub price: Num,
   /// The size of the trade.
   #[serde(rename = "s")]
   pub size: usize,
+  /// Exchange of the asset
+  #[serde(rename = "c")]
+  pub conditions: Vec<String>,
 }
 
 
@@ -227,9 +233,11 @@ mod tests {
 
     let expected_time = DateTime::<Utc>::from_str("2018-12-03T21:47:01.324200Z").unwrap();
     assert_eq!(trades.len(), 2);
+    println!("{:?}", trades[0]);
     assert_eq!(trades[0].timestamp, expected_time);
     assert_eq!(trades[0].price, Num::new(4608, 25));
     assert_eq!(trades[0].size, 6);
+    assert_ne!(trades[0].conditions.len(), 0);
     assert_eq!(res.symbol, "AAPL".to_string());
     assert!(res.next_page_token.is_some())
   }
